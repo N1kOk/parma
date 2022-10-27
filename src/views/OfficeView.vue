@@ -33,10 +33,10 @@
 
 				<div class="w-[70%] px-16 py-8 bg-gray-50">
 					<div class="relative w-[550px] mx-auto flex flex-wrap gap-[50px]">
-						<div class="relative w-[150px] h-[150px] bg-white" v-for="i in 5">
+						<div class="relative w-[150px] h-[150px] bg-white" v-for="(room, i) in rooms[currentFloor - 1]">
 							<div class="h-[calc(100%-24px)] flex flex-wrap">
-								<div class="relative w-[20%] h-[20%] m-[15%] bg-black" v-for="j in 4"
-								     :class="Math.round(Math.random()) ? 'text-red' : 'text-green'">
+								<div class="relative w-[20%] h-[20%] m-[15%] bg-black" v-for="place in room"
+								     :class="place ? 'text-red' : 'text-green'">
 
 									<svg class="absolute left-0 bottom-1/2 w-full" viewBox="0 0 45 58" fill="none"
 									     xmlns="http://www.w3.org/2000/svg">
@@ -63,6 +63,7 @@
 import { useRoute } from 'vue-router'
 import { setCurrentOffice } from '@/scripts/offices'
 import { ref } from 'vue'
+import { rooms } from '@/scripts/rooms'
 
 const isEdited = ref(false)
 const currentFloor = ref(1)
