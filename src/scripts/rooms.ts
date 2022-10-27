@@ -2,7 +2,7 @@ export const rooms = [
 	[
 		[null, null, null, null],
 		[null, null, null, null],
-		[null, null, null, null],
+		[null, null, null],
 		[null, null, null, null],
 		[null, {
 			firstName: 'Иван',
@@ -13,22 +13,20 @@ export const rooms = [
 		}, null, null],
 	],
 	[
+		[null, null,  ],
 		[null, null, null, null],
 		[null, null, null, null],
-		[null, null, null, null],
-		[null, null, null, null],
-		[null, null, null, null],
-	],
-	[
-		[null, null, null, null],
-		[null, null, null, null],
-		[null, null, null, null],
-		[null, null, null, null],
+		[null, null, null, ],
 		[null, null, null, null],
 	],
 	[
+		[null, null, ],
 		[null, null, null, null],
+		[null, null, ],
 		[null, null, null, null],
+		[ null],
+	],
+	[
 		[null, null, null, null],
 		[null, null, null, null],
 		[null, null, null, null],

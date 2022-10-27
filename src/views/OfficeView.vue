@@ -31,27 +31,50 @@
 					</div>
 				</div>
 
-				<div class="w-[70%] px-16 py-8 bg-gray-50">
-					<div class="relative w-[550px] mx-auto flex flex-wrap gap-[50px]">
-						<div class="relative w-[150px] h-[150px] bg-white" v-for="(room, i) in rooms[currentFloor - 1]">
-							<div class="h-[calc(100%-24px)] flex flex-wrap">
-								<div class="relative w-[20%] h-[20%] m-[15%] bg-black" v-for="place in room"
-								     :class="place ? 'text-red' : 'text-green'">
+				<div class="w-[70%] min-h-[414px] bg-gray-50">
+					<div class="w-[550px] min-h-[inherit] flex py-8 mx-auto">
+						<div class="relative flex flex-1 flex-wrap gap-[50px]">
+							<div class="relative w-[150px] h-[150px] bg-white"
+							     v-for="(room, i) in rooms[currentFloor - 1]">
+								<div class="h-[calc(100%-24px)] flex flex-wrap">
+									<div class="group relative w-[20%] h-[20%] m-[15%] bg-black" v-for="place in room"
+									     :class="place ? 'text-red' : 'text-green'">
 
-									<svg class="absolute left-0 bottom-1/2 w-full" viewBox="0 0 45 58" fill="none"
-									     xmlns="http://www.w3.org/2000/svg">
-										<path
-											d="M22.0778 0C9.90122 0 0.0529785 9.32409 0.0529785 20.8526C0.0529785 33.2748 13.9601 50.4037 19.6865 56.9276C20.9451 58.3575 23.242 58.3575 24.5005 56.9276C30.1955 50.4037 44.1026 33.2748 44.1026 20.8526C44.1026 9.32409 34.2544 0 22.0778 0ZM22.0778 28.2999C17.7358 28.2999 14.2118 24.9635 14.2118 20.8526C14.2118 16.7417 17.7358 13.4052 22.0778 13.4052C26.4198 13.4052 29.9438 16.7417 29.9438 20.8526C29.9438 24.9635 26.4198 28.2999 22.0778 28.2999Z"
-											fill="currentColor"/>
-									</svg>
+										<svg class="absolute left-0 bottom-1/2 w-full" viewBox="0 0 45 58" fill="none"
+										     xmlns="http://www.w3.org/2000/svg">
+											<path
+												d="M22.0778 0C9.90122 0 0.0529785 9.32409 0.0529785 20.8526C0.0529785 33.2748 13.9601 50.4037 19.6865 56.9276C20.9451 58.3575 23.242 58.3575 24.5005 56.9276C30.1955 50.4037 44.1026 33.2748 44.1026 20.8526C44.1026 9.32409 34.2544 0 22.0778 0ZM22.0778 28.2999C17.7358 28.2999 14.2118 24.9635 14.2118 20.8526C14.2118 16.7417 17.7358 13.4052 22.0778 13.4052C26.4198 13.4052 29.9438 16.7417 29.9438 20.8526C29.9438 24.9635 26.4198 28.2999 22.0778 28.2999Z"
+												fill="currentColor"/>
+										</svg>
+
+										<div v-if="place"
+										     class="group-hover:block hidden absolute left-full bottom-full p-4 text-black bg-white/50 backdrop-blur-sm border-2
+																		w-max h-max z-50">
+											<div class="flex space-x-4">
+												<img class="h-[150px]" src="/images/man.png" alt="man">
+												<div class="space-y-4">
+													<div>
+														<div>{{ place.lastName }}</div>
+														<div>{{ place.firstName }}</div>
+														<div>{{ place.patronymic }}</div>
+													</div>
+
+													<div>{{ place.phone }}</div>
+													<div>{{ place.mail }}</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
+								<div class="text-center font-bold">{{ currentFloor * 100 + i + 1 }}</div>
+								<img class="absolute w-[30px] -top-5 -right-4 cursor-pointer" src="/images/trash.svg"
+								     alt="trash" v-show="isEdited">
 							</div>
-							<div class="text-center font-bold">{{ currentFloor * 100 + i }}</div>
-							<img class="absolute w-[30px] -top-5 -right-4 cursor-pointer" src="/images/trash.svg"
-							     alt="trash" v-show="isEdited">
+							<img class="absolute right-0 bottom-0 w-[50px] cursor-pointer" src="/images/plus.svg"
+							     alt="plus"
+							     v-show="isEdited">
 						</div>
-						<img class="absolute right-0 bottom-0 w-[50px] cursor-pointer" src="/images/plus.svg" alt="plus"
-						     v-show="isEdited">
+
 					</div>
 				</div>
 			</div>
