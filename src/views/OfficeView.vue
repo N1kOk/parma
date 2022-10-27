@@ -27,8 +27,7 @@
 					<div class="p-4 flex flex-col space-y-4 text-center bg-gray-50">
 						<div class="font-bold">Этаж</div>
 						<div class="cursor-pointer select-none" v-html="floorIcons[i - 1]" v-for="i in 4"
-						     :class="currentFloor === i && 'text-red'"
-						     @click="currentFloor = i"/>
+						     :class="currentFloor === i && 'text-red'" @click="currentFloor = i"/>
 					</div>
 				</div>
 
@@ -36,7 +35,7 @@
 					<div class="relative w-[550px] mx-auto flex flex-wrap gap-[50px]">
 						<div class="relative w-[150px] h-[150px] bg-white" v-for="i in 5">
 							<div class="h-[calc(100%-24px)] flex flex-wrap">
-								<div class="relative w-[20%] h-[20%] m-[15%] bg-black" v-for="i in 4"
+								<div class="relative w-[20%] h-[20%] m-[15%] bg-black" v-for="j in 4"
 								     :class="Math.round(Math.random()) ? 'text-red' : 'text-green'">
 
 									<svg class="absolute left-0 bottom-1/2 w-full" viewBox="0 0 45 58" fill="none"
