@@ -47,6 +47,7 @@ import { useRoute } from 'vue-router'
 import { setCurrentOffice } from '@/scripts/offices'
 import { ref } from 'vue'
 
+const currentFloor = ref(1)
 const officeId = +useRoute().params.officeId
 
 const floorIcons = [
@@ -65,9 +66,4 @@ const floorIcons = [
 ]
 
 setCurrentOffice(officeId)
-
-const currentFloor = ref(1)
-// function setCurrentFloor(id: number) {
-// 	currentFloor
-// }
 </script>
