@@ -2,7 +2,7 @@
 	<TheHeader/>
 	<main class="min-h-[calc(100vh-240px)]">
 		<section class="min-h-[inherit]">
-			<div class="container flex flex-col justify-evenly p-4 py-8 min-h-[inherit]">
+			<div class="container py-4 flex flex-col justify-evenly min-h-[inherit]">
 				<RouterView/>
 			</div>
 		</section>

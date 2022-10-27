@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import { nextTick } from 'vue'
 import { auth } from '@/utils/auth'
 
@@ -16,9 +16,16 @@ const router = createRouter({
 	routes: [
 		{
 			path: '/',
-			component: () => import('../views/LoginView.vue'),
+			component: () => import('../views/IndexView.vue'),
 			meta: {
 				title: 'Выбор города',
+			},
+		},
+		{
+			path: '/office/:officeId',
+			component: () => import('../views/OfficeView.vue'),
+			meta: {
+				title: 'Выбор помещения',
 			},
 		},
 		{
@@ -63,7 +70,7 @@ router.beforeEach((to, from) => {
 
 router.afterEach((to, from) => {
 	nextTick(() => {
-		document.title = to.meta.title + ' | PARMA' || 'PARMA'
+		document.title = to.meta.title + ' | PARMA Technologies Group' || 'PARMA Technologies Group'
 	}).then()
 })
 

@@ -10,8 +10,10 @@ module.exports = {
             colors: {
                 'black-500': '#293240',
                 'red-500': '#EC1C24',
+                'red-50': '#FF4346',
                 'red': '#F00',
                 'gray': '#898B8D',
+                'gray-50': '#E9ECEE',
             },
             flex: {
                 '2': '1 1 50%',
