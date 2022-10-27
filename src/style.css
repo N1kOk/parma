@@ -11,11 +11,11 @@ html {
 
 input[type='text'], input[type='password'] {
     color: #0F2232;
-    font-family: 'Montserrat', sans-serif;
-    text-align: center;
-    @apply text-2xl p-2 border-[3px] border-[#0F2232] rounded-2xl font-bold
 }
 
+.login-form {
+    @apply text-center text-2xl p-2 border-[3px] border-[#0F2232] rounded-2xl font-bold
+}
 
 
 
