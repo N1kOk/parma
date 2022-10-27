@@ -14,6 +14,7 @@ module.exports = {
                 'red': '#F00',
                 'gray': '#898B8D',
                 'gray-50': '#E9ECEE',
+                'green': '#28B66A'
             },
             flex: {
                 '2': '1 1 50%',
