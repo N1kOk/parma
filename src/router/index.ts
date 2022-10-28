@@ -22,6 +22,13 @@ const router = createRouter({
 			},
 		},
 		{
+			path: '/profile',
+			component: () => import('../views/ProfileView.vue'),
+			meta: {
+				title: 'Мой профиль',
+			},
+		},
+		{
 			path: '/office/:officeId',
 			component: () => import('../views/OfficeView.vue'),
 			meta: {

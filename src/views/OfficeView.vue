@@ -3,7 +3,7 @@
 		<div class="min-h-[inherit] flex flex-col justify-between">
 			<div class="flex h-[75px]">
 				<div class="flex space-x-16">
-					<RouterLink to="/user">
+					<RouterLink to="/profile">
 						<img class="h-full" src="/images/user.svg" alt="user">
 					</RouterLink>
 					<RouterLink to="/calendar">
@@ -21,7 +21,7 @@
 
 			<div class="flex justify-between items-end">
 				<div class="w-[75px] h-[414px] flex flex-col justify-between">
-					<div class="cursor-pointer" @click="isEdited = true">
+					<div class="cursor-pointer" @click="isEdited = !isEdited">
 						<img class="w-full" src="/images/pencil.svg" alt="edit">
 					</div>
 					<div class="p-4 flex flex-col space-y-4 text-center bg-gray-50">
@@ -49,7 +49,7 @@
 
 										<div v-if="place"
 										     class="group-hover:block hidden absolute left-full bottom-full p-4 text-black bg-white/50 backdrop-blur-sm border-2
-																		w-max h-max z-50">
+													w-max h-max z-50">
 											<div class="flex space-x-4">
 												<img class="h-[150px]" src="/images/man.png" alt="man">
 												<div class="space-y-4">
@@ -68,11 +68,10 @@
 								</div>
 								<div class="text-center font-bold">{{ currentFloor * 100 + i + 1 }}</div>
 								<img class="absolute w-[30px] -top-5 -right-4 cursor-pointer" src="/images/trash.svg"
-								     alt="trash" v-show="isEdited">
+								     alt="trash" v-show="isEdited" @click="removeRoom(currentFloor, i)">
 							</div>
 							<img class="absolute right-0 bottom-0 w-[50px] cursor-pointer" src="/images/plus.svg"
-							     alt="plus"
-							     v-show="isEdited">
+							     alt="plus" v-show="isEdited && rooms[currentFloor - 1].length < 6" @click="createRoom(currentFloor)">
 						</div>
 
 					</div>
@@ -86,7 +85,7 @@
 import { useRoute } from 'vue-router'
 import { setCurrentOffice } from '@/scripts/offices'
 import { ref } from 'vue'
-import { rooms } from '@/scripts/rooms'
+import { createRoom, removeRoom, rooms } from '@/scripts/rooms'
 
 const isEdited = ref(false)
 const currentFloor = ref(1)
