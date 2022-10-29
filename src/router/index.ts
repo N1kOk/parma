@@ -22,6 +22,13 @@ const router = createRouter({
 			},
 		},
 		{
+			path: '/calendar/:roomId/:placeId',
+			component: () => import('../views/CalendarView.vue'),
+			meta: {
+				title: 'Мой профиль',
+			},
+		},
+		{
 			path: '/profile',
 			component: () => import('../views/ProfileView.vue'),
 			meta: {

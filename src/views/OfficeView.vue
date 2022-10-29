@@ -6,7 +6,7 @@
 					<RouterLink to="/profile">
 						<img class="h-full" src="/images/user.svg" alt="user">
 					</RouterLink>
-					<RouterLink to="/calendar">
+					<RouterLink to="/calendar/101/1">
 						<img class="h-full" src="/images/calendar.svg" alt="calendar">
 					</RouterLink>
 				</div>
@@ -37,8 +37,10 @@
 							<div class="relative w-[150px] h-[150px] bg-white"
 							     v-for="(room, i) in rooms[currentFloor - 1]">
 								<div class="h-[calc(100%-24px)] flex flex-wrap">
-									<div class="group relative w-[20%] h-[20%] m-[15%] bg-black" v-for="place in room"
-									     :class="place ? 'text-red' : 'text-green'">
+									<div class="group relative w-[20%] h-[20%] m-[15%] bg-black cursor-pointer"
+									     v-for="(place, placeId) in room"
+									     :class="place ? 'text-red' : 'text-green'"
+									     @click="openCalendar(currentFloor * 100 + i + 1, placeId + 1)">
 
 										<svg class="absolute left-0 bottom-1/2 w-full" viewBox="0 0 45 58" fill="none"
 										     xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +73,8 @@
 								     alt="trash" v-show="isEdited" @click="removeRoom(currentFloor, i)">
 							</div>
 							<img class="absolute right-0 bottom-0 w-[50px] cursor-pointer" src="/images/plus.svg"
-							     alt="plus" v-show="isEdited && rooms[currentFloor - 1].length < 6" @click="createRoom(currentFloor)">
+							     alt="plus" v-show="isEdited && rooms[currentFloor - 1].length < 6"
+							     @click="createRoom(currentFloor)">
 						</div>
 
 					</div>
@@ -82,11 +85,12 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { setCurrentOffice } from '@/scripts/offices'
 import { ref } from 'vue'
 import { createRoom, removeRoom, rooms } from '@/scripts/rooms'
 
+const router = useRouter()
 const isEdited = ref(false)
 const currentFloor = ref(1)
 const officeId = +useRoute().params.officeId
@@ -107,4 +111,8 @@ const floorIcons = [
 ]
 
 setCurrentOffice(officeId)
+
+function openCalendar(room: number, place: number) {
+	router.push(`/calendar/${room}/${place}`)
+}
 </script>
