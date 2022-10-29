@@ -29,6 +29,13 @@ const router = createRouter({
 			},
 		},
 		{
+			path: '/schedule',
+			component: () => import('../views/ScheduleView.vue'),
+			meta: {
+				title: 'Мой профиль',
+			},
+		},
+		{
 			path: '/profile',
 			component: () => import('../views/ProfileView.vue'),
 			meta: {

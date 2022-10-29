@@ -6,8 +6,8 @@
 					<RouterLink to="/profile">
 						<img class="h-full" src="/images/user.svg" alt="user">
 					</RouterLink>
-					<RouterLink to="/calendar/101/1">
-						<img class="h-full" src="/images/calendar.svg" alt="calendar">
+					<RouterLink to="/schedule">
+						<img class="h-full" src="/images/calendar-image.svg" alt="calendar">
 					</RouterLink>
 				</div>
 				<div class="px-10 py-4 ml-auto flex border border-2 rounded-full space-x-8"

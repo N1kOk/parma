@@ -52,6 +52,4 @@ const days = ['понедельник', 'вторник', 'среда', 'чет�
 
 const roomId = +useRoute().params.roomId
 const placeId = +useRoute().params.placeId
-
-
 </script>
