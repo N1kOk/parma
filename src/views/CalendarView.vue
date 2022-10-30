@@ -14,8 +14,13 @@
 							<div class="w-[81px] text-center border" v-for="day in days">
 								{{ day }}
 							</div>
-							<div class="w-[81px] h-[55px] p-1 flex border" v-for="i in 35">
-								<div v-show="1 <= i - 3 && i - 3 <= 31">{{ i - 3 }}</div>
+
+							<div class="relative w-[81px] h-[55px] p-1 flex border" v-for="i in 35">
+								<div v-show="1 <= i - 3 && i - 3 <= 31">
+									<div>{{ i - 3 }}</div>
+									<img class="absolute left-1/2 top-1/2 h-[70%] -translate-x-1/2 -translate-y-1/2"
+									     src="/images/ok.svg" alt="status">
+								</div>
 							</div>
 						</div>
 					</div>

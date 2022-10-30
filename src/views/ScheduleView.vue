@@ -2,7 +2,7 @@
 	<div class="w-full h-[1px] min-h-[calc(100vh-160px)] flex justify-between text-left">
 		<div class="w-full h-full space-y-12">
 			<div class="text-4xl font-bold">Расписание бронирования</div>
-			<div class="w-full h-[calc(100%-112px)] p-8 bg-gray-50 space-y-4">
+			<div class="w-full min-h-[calc(100%-112px)] p-8 bg-gray-50 space-y-4">
 				<div class="flex justify-between">
 					<div class="flex items-center space-x-8 text-2xl font-bold">
 						<div>{{ +date.split('-')[2] }} декабря 2022 г.</div>
@@ -22,8 +22,38 @@
 						       id="search" type="text" placeholder="Поиск сотрудника" autocomplete="off">
 					</div>
 				</div>
-				<div class="w-full h-[calc(100%-50px)] flex justify-between">
+				<div class="w-full h-[calc(100%-50px)] flex flex-col space-y-4 text-2xl">
+					<div class="h-max w-1/2 p-4 space-y-2 text-white bg-black-500 border-2 border-black">
+						<div>Офис 101</div>
 
+						<div class="px-1 flex space-x-16 text-black bg-white rounded">
+							<div>2 место</div>
+							<div>ЗАНЯТО</div>
+							<div class="text-red">ПОСМОТРЕТЬ</div>
+						</div>
+
+						<div class="px-1 flex space-x-16 text-black bg-white rounded">
+							<div>3 место</div>
+							<div>ЗАНЯТО</div>
+							<div class="text-red">ПОСМОТРЕТЬ</div>
+						</div>
+					</div>
+
+					<div class="h-max w-1/2 p-4 space-y-2 text-white bg-black-500 border-2 border-black">
+						<div>Офис 102</div>
+
+						<div class="px-1 flex space-x-16 text-black bg-white rounded">
+							<div>2 место</div>
+							<div>ЗАНЯТО</div>
+							<div class="text-red">ПОСМОТРЕТЬ</div>
+						</div>
+
+						<div class="px-1 flex space-x-16 text-black bg-white rounded">
+							<div>3 место</div>
+							<div>ЗАНЯТО</div>
+							<div class="text-red">ПОСМОТРЕТЬ</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
