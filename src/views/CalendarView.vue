@@ -38,8 +38,7 @@
 
 						<div class="w-[350px] mx-auto space-y-2 text-center text-xl">
 							<div class="px-4 border rounded-full bg-green cursor-pointer">Забронировать на завтра</div>
-							<div class="px-4 border rounded-full bg-green cursor-pointer">Забронировать на ... дней
-							</div>
+							<div class="px-4 border rounded-full bg-green cursor-pointer">Забронировать на ... дней</div>
 							<div class="px-4 border rounded-full bg-green cursor-pointer">Забронировать на неделю</div>
 							<div class="px-4 border rounded-full bg-white cursor-pointer">Забронировать на месяц</div>
 						</div>

@@ -35,6 +35,18 @@ export const rooms = ref([
 	],
 ])
 
+export function getRooms(date: string, floor: number) {
+	return getRoomsByFloor(getRoomsByDate(date), floor)
+}
+
+function getRoomsByDate(date: string) {
+	return rooms.value[date]
+}
+
+function getRoomsByFloor(roomsWithoutDate: typeof rooms, floor: number) {
+	return roomsWithoutDate.value[floor - 1]
+}
+
 export function createRoom(floor: number) {
 	rooms.value[floor - 1].push([null, null, null, null])
 }
