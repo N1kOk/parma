@@ -5,7 +5,13 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+
+    "lib": [
+      "es2017",
+      "dom",
+      "scripthost"
+    ]
   },
 
   "references": [

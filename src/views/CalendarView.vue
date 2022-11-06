@@ -37,10 +37,18 @@
 						</div>
 
 						<div class="w-[350px] mx-auto space-y-2 text-center text-xl">
-							<div class="px-4 border rounded-full bg-green cursor-pointer">Забронировать на завтра</div>
-							<div class="px-4 border rounded-full bg-green cursor-pointer">Забронировать на ... дней</div>
-							<div class="px-4 border rounded-full bg-green cursor-pointer">Забронировать на неделю</div>
-							<div class="px-4 border rounded-full bg-white cursor-pointer">Забронировать на месяц</div>
+							<div class="px-4 border rounded-full bg-green cursor-pointer" @click="book(1)">
+								Забронировать на завтра
+							</div>
+							<div class="px-4 border rounded-full bg-green cursor-pointer" @click="book(undefined)">
+								Забронировать на ... дней
+							</div>
+							<div class="px-4 border rounded-full bg-green cursor-pointer" @click="book(7)">
+								Забронировать на неделю
+							</div>
+							<div class="px-4 border rounded-full bg-white cursor-pointer">
+								Забронировать на месяц
+							</div>
 						</div>
 					</div>
 				</div>
@@ -51,9 +59,30 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
+import { getNextDate } from '@/scripts/utils'
+import { schedule } from '@/scripts/schedule'
 
 const days = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'].map(value => value.toUpperCase())
 
 const roomId = +useRoute().params.roomId
 const placeId = +useRoute().params.placeId
+
+function book(days: number | undefined) {
+	while (!days)
+		days = +prompt('Введите количество дней')!
+
+	const floor = +roomId.toString().slice(1)
+	const roomIndex = +roomId.toString().slice(-1) - 1
+	const placeIndex = placeId - 1
+
+	for (let i = 1; i <= days; i++) {
+		schedule.value[getNextDate(i)][floor - 1][roomIndex][placeIndex] = {
+			firstName: 'FirstName',
+			lastName: 'LastName',
+			mail: 'Mail',
+			patronymic: 'Patronymic',
+			phone: 'Phone',
+		}
+	}
+}
 </script>
