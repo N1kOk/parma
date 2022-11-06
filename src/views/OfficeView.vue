@@ -35,7 +35,7 @@
 					<div class="w-[550px] min-h-[inherit] flex py-8 mx-auto">
 						<div class="relative flex flex-1 flex-wrap gap-[50px]">
 							<div class="relative w-[150px] h-[150px] bg-white"
-							     v-for="(room, i) in rooms[currentFloor - 1]">
+							     v-for="(room, i) in schedule[currentDate][currentFloor - 1]">
 								<div class="h-[calc(100%-24px)] flex flex-wrap">
 									<div class="group relative w-[20%] h-[20%] m-[15%] bg-black cursor-pointer"
 									     v-for="(place, placeId) in room"
@@ -70,11 +70,11 @@
 								</div>
 								<div class="text-center font-bold">{{ currentFloor * 100 + i + 1 }}</div>
 								<img class="absolute w-[30px] -top-5 -right-4 cursor-pointer" src="/images/trash.svg"
-								     alt="trash" v-show="isEdited" @click="removeRoom(currentFloor, i)">
+								     alt="trash" v-show="isEdited" @click="removeRoom(currentDate, currentFloor, i)">
 							</div>
 							<img class="absolute right-0 bottom-0 w-[50px] cursor-pointer" src="/images/plus.svg"
-							     alt="plus" v-show="isEdited && rooms[currentFloor - 1].length < 6"
-							     @click="createRoom(currentFloor)">
+							     alt="plus" v-show="isEdited && schedule[currentDate][currentFloor - 1].length < 6"
+							     @click="createRoom(currentDate, currentFloor)">
 						</div>
 
 					</div>
@@ -88,13 +88,15 @@
 import { useRoute, useRouter } from 'vue-router'
 import { setCurrentOffice } from '@/scripts/offices'
 import { ref } from 'vue'
-import { createRoom, removeRoom, rooms } from '@/scripts/rooms'
+import { createRoom, removeRoom, schedule } from '@/scripts/schedule'
+import { getCurrentDate } from '@/scripts/utils'
 
 const router = useRouter()
 const isEdited = ref(false)
 const currentFloor = ref(1)
 const officeId = +useRoute().params.officeId
 
+const currentDate = getCurrentDate()
 const floorIcons = [
 	`<svg class="w-full" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
 		<path d="M4.54545 9.09091H0V45.4545C0 47.9545 2.04545 50 4.54545 50H40.9091V45.4545H4.54545V9.09091ZM29.5455 31.8182H34.0909V9.09091H25V13.6364H29.5455V31.8182ZM45.4545 0H13.6364C11.1364 0 9.09091 2.04545 9.09091 4.54545V36.3636C9.09091 38.8636 11.1364 40.9091 13.6364 40.9091H45.4545C47.9545 40.9091 50 38.8636 50 36.3636V4.54545C50 2.04545 47.9545 0 45.4545 0ZM45.4545 36.3636H13.6364V4.54545H45.4545V36.3636Z" fill="currentColor"/>

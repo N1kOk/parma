@@ -62,6 +62,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { getCurrentDate } from '@/scripts/utils'
 
-const date = ref(new Date().toISOString().slice(0, 10))
+const date = ref(getCurrentDate())
 </script>
