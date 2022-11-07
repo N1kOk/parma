@@ -19,7 +19,8 @@
 								<div v-show="1 <= i - 3 && i - 3 <= 31">
 									<div>{{ i - 3 }}</div>
 									<img class="absolute left-1/2 top-1/2 h-[70%] -translate-x-1/2 -translate-y-1/2"
-									     src="/images/ok.svg" alt="status">
+									     :alt="`status ${createDate(i - 3)}`"
+									     :src="`/images/${getStatus(i - 3)}.svg`">
 								</div>
 							</div>
 						</div>
@@ -46,7 +47,7 @@
 							<div class="px-4 border rounded-full bg-green cursor-pointer" @click="book(7)">
 								Забронировать на неделю
 							</div>
-							<div class="px-4 border rounded-full bg-white cursor-pointer">
+							<div class="px-4 border rounded-full bg-white cursor-default">
 								Забронировать на месяц
 							</div>
 						</div>
@@ -59,21 +60,33 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { getNextDate } from '@/scripts/utils'
+import { createDate, getCurrentDate, getCurrentDay, getNextDate } from '@/scripts/utils'
 import { schedule } from '@/scripts/schedule'
+
+// TODO Cancel book
 
 const days = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'].map(value => value.toUpperCase())
 
 const roomId = +useRoute().params.roomId
 const placeId = +useRoute().params.placeId
 
-function book(days: number | undefined) {
-	while (!days)
-		days = +prompt('Введите количество дней')!
+const currentDate = getCurrentDate()
+const floor = +roomId.toString().slice(0, 1)
+const roomIndex = +roomId.toString().slice(-1) - 1
+const placeIndex = placeId - 1
 
-	const floor = +roomId.toString().slice(1)
-	const roomIndex = +roomId.toString().slice(-1) - 1
-	const placeIndex = placeId - 1
+function getStatus(day: number) {
+	const holder = schedule.value[createDate(day)][floor - 1][roomIndex][placeIndex]
+
+
+	if (holder) return 'cancel'
+	if (day <= getCurrentDay()) return 'cancel'
+	return 'ok'
+}
+
+function book(days: number | undefined) {
+	if (!days) days = +prompt('Введите количество дней')!
+	if (!days) return
 
 	for (let i = 1; i <= days; i++) {
 		schedule.value[getNextDate(i)][floor - 1][roomIndex][placeIndex] = {

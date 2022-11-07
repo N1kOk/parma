@@ -22,34 +22,15 @@
 						       id="search" type="text" placeholder="Поиск сотрудника" autocomplete="off">
 					</div>
 				</div>
+
 				<div class="w-full h-[calc(100%-50px)] flex flex-col space-y-4 text-2xl">
-					<div class="h-max w-1/2 p-4 space-y-2 text-white bg-black-500 border-2 border-black">
-						<div>Офис 101</div>
+					<div class="h-max w-1/2 p-4 space-y-2 text-white bg-black-500 border-2 border-black"
+					     v-for="bookedRoom in getBookedRooms()">
+						<div>Офис {{ bookedRoom.room }}</div>
 
-						<div class="px-1 flex space-x-16 text-black bg-white rounded">
-							<div>2 место</div>
-							<div>ЗАНЯТО</div>
-							<div class="text-red">ПОСМОТРЕТЬ</div>
-						</div>
-
-						<div class="px-1 flex space-x-16 text-black bg-white rounded">
-							<div>3 место</div>
-							<div>ЗАНЯТО</div>
-							<div class="text-red">ПОСМОТРЕТЬ</div>
-						</div>
-					</div>
-
-					<div class="h-max w-1/2 p-4 space-y-2 text-white bg-black-500 border-2 border-black">
-						<div>Офис 102</div>
-
-						<div class="px-1 flex space-x-16 text-black bg-white rounded">
-							<div>2 место</div>
-							<div>ЗАНЯТО</div>
-							<div class="text-red">ПОСМОТРЕТЬ</div>
-						</div>
-
-						<div class="px-1 flex space-x-16 text-black bg-white rounded">
-							<div>3 место</div>
+						<div class="px-1 flex [&>*]:w-[calc(100%/3)] text-black bg-white rounded"
+						     v-for="place in bookedRoom.places">
+							<div>{{ place.place }} место</div>
 							<div>ЗАНЯТО</div>
 							<div class="text-red">ПОСМОТРЕТЬ</div>
 						</div>
@@ -63,6 +44,42 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { getCurrentDate } from '@/scripts/utils'
+import { schedule } from '@/scripts/schedule'
 
 const date = ref(getCurrentDate())
+
+function getBookedRooms() {
+	const bookedRooms: {
+		floor: number,
+		room: number,
+		places: {
+			place: number
+			holder: any
+		}[],
+	}[] = []
+
+	for (const floorIndex in schedule.value[date.value])
+		for (const roomIndex in schedule.value[date.value][floorIndex]) {
+			const places: {
+				place: number
+				holder: any
+			}[] = []
+
+			for (const placeIndex in schedule.value[date.value][floorIndex][roomIndex])
+				if (schedule.value[date.value][floorIndex][roomIndex][placeIndex])
+					places.push({
+						place: +placeIndex + 1,
+						holder: schedule.value[date.value][floorIndex][roomIndex][placeIndex],
+					})
+
+			if (places.length)
+				bookedRooms.push({
+					places,
+					floor: +floorIndex + 1,
+					room: (+floorIndex + 1) * 100 + +roomIndex + 1,
+				})
+		}
+
+	return bookedRooms
+}
 </script>

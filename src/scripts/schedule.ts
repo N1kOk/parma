@@ -57,7 +57,7 @@ export function removeRoom(date: string, floor: number, roomIndex: number) {
 
 function setDefaultValue() {
 	for (let i = 2; i < 32; i++)
-		schedule.value[`2022-12-${i < 10 ? `0${i}` : i}`] = schedule.value[`2022-12-01`]
+		schedule.value[`2022-12-${i < 10 ? `0${i}` : i}`] = JSON.parse(JSON.stringify(schedule.value[`2022-12-01`]))
 }
 
 // export function getRooms(date: string, floor: number) {
