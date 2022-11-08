@@ -131,7 +131,7 @@ function book(days: number | undefined) {
 
 	if (!isBookingAvailable(days)) return
 
-	if (!confirm(`Вы уверены, что хотите забронировать место до ${new Date(getNextDate(days)).toLocaleDateString()} (дней: ${days})?`))
+	if (!confirm(`Вы уверены, что хотите забронировать место до ${new Date(getNextDate(days)).toLocaleDateString()}?\nКоличество дней: ${days}`))
 		return
 
 	for (let i = 1; i <= days; i++)
