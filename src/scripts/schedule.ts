@@ -1,49 +1,13 @@
 import { ref } from 'vue'
-
-// firstName: 'Иван',
-// lastName: 'Косарский',
-// patronymic: 'Александрович',
-// phone: '+7 922 300 30 08',
-// mail: 'cos@gmail.com',
+import { pickRandom } from '@/scripts/utils'
 
 type Floors = (null | UserInfo)[][][]
 type UserInfo = { [X in 'firstName' | 'lastName' | 'patronymic' | 'phone' | 'mail']: string }
 
 // [date][floor - 1][roomIndex][placeIndex]
-export const schedule = ref<{ [X: string]: Floors }>({
-	'2022-12-01': [
-		[
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-		],
-		[
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-		],
-		[
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-		],
-		[
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-			[null, null, null, null],
-		],
-	],
-})
+export const schedule = ref<{ [X: string]: Floors }>({})
 
-setDefaultValue()
+initSchedule()
 
 export function createRoom(date: string, floor: number) {
 	schedule.value[date][floor - 1].push([null, null, null, null])
@@ -55,21 +19,56 @@ export function removeRoom(date: string, floor: number, roomIndex: number) {
 	schedule.value[date][floor - 1] = schedule.value[date][floor - 1].filter((value: unknown) => value !== undefined)
 }
 
-function setDefaultValue() {
-	for (let i = 2; i < 32; i++)
-		schedule.value[`2022-12-${i < 10 ? `0${i}` : i}`] = JSON.parse(JSON.stringify(schedule.value[`2022-12-01`]))
+function initSchedule() {
+	if (sessionStorage.schedule)
+		schedule.value = JSON.parse(sessionStorage.schedule)
+	else
+		for (let i = 1; i <= 31; i++)
+			schedule.value[`2022-12-${i.toString().padStart(2, '0')}`] = generateFloors()
+	
+	saveSchedule()
 }
 
-// export function getRooms(date: string, floor: number) {
-// 	return getRoomsByFloor(getRoomsByDate(date), floor)
-// }
-//
-// function getRoomsByDate(date: string) {
-// 	if (!(<any>schedule.value)[date])
-// 		(<any>schedule.value)[date] = defaultFloorsValue
-// 	return (<any>schedule.value)[date] as Floors
-// }
-//
-// function getRoomsByFloor(floors: Floors, floor: number) {
-// 	return floors[floor - 1]
-// }
+export function saveSchedule() {
+	sessionStorage.schedule = JSON.stringify(schedule.value)
+}
+
+function generatePlace() {
+	return pickRandom(
+		null, null, null, null,
+		{
+			firstName: 'Иван',
+			lastName: 'Косарский',
+			patronymic: 'Александрович',
+			phone: '+7 922 300 30 08',
+			mail: 'cos@gmail.com',
+		})
+}
+
+function generateRoom() {
+	const arr = []
+	
+	for (let i = 0; i < 4; i++)
+		arr.push(generatePlace())
+	
+	return arr
+}
+
+function generateFloor() {
+	const arr = []
+	
+	const rooms = 5 // pickRandom(2, 3, 4, 5, 6)
+	for (let i = 0; i < rooms; i++)
+		arr.push(generateRoom())
+	
+	return arr
+}
+
+function generateFloors() {
+	const arr = []
+	
+	for (let i = 0; i < 4; i++)
+		arr.push(generateFloor())
+	
+	return arr
+}

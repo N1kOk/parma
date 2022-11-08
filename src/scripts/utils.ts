@@ -28,3 +28,7 @@ export function createDate(day: number) {
 	
 	return '2022-12-' + strDay
 }
+export function pickRandom<T>(...args: T[]) {
+	const index = Math.floor(Math.random() * args.length)
+	return args[index]
+}

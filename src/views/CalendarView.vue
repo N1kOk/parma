@@ -16,11 +16,13 @@
 							</div>
 
 							<div class="relative w-[81px] h-[55px] p-1 flex border" v-for="i in 35">
-								<div v-show="1 <= i - 3 && i - 3 <= 31">
+								<div v-show="1 <= i - 3 && i - 3 <= 31"
+								     :class="(getState(i - 3) === 'ok') && 'cursor-pointer'"
+								     @click="bookDate(createDate(i-3), true)">
 									<div>{{ i - 3 }}</div>
 									<img class="absolute left-1/2 top-1/2 h-[70%] -translate-x-1/2 -translate-y-1/2"
 									     :alt="`status ${createDate(i - 3)}`"
-									     :src="`/images/${getStatus(i - 3)}.svg`">
+									     :src="`/images/${getState(i - 3)}.svg`">
 								</div>
 							</div>
 						</div>
@@ -28,8 +30,10 @@
 
 					<div class="w-full h-full flex flex-col justify-center">
 						<div class="flex-1 space-y-4">
-							<div
-								class="w-[300px] p-4 mx-auto bg-red text-white text-center text-2xl font-bold cursor-pointer">
+							<div class="w-[300px] p-4 mx-auto bg-red text-white text-center text-2xl font-bold
+									    cursor-pointer"
+							     v-show="getDatesOfMyPlaces().length"
+							     @click="cancelBook()">
 								Снять бронь
 							</div>
 							<div class="text-sm text-center underline underline-offset-4">Отмена брони возможна лишь за
@@ -38,13 +42,19 @@
 						</div>
 
 						<div class="w-[350px] mx-auto space-y-2 text-center text-xl">
-							<div class="px-4 border rounded-full bg-green cursor-pointer" @click="book(1)">
+							<div class="px-4 border rounded-full bg-green cursor-pointer"
+							     :class="!isBookingAvailable(1) && '!bg-white'"
+							     @click="book(1)">
 								Забронировать на завтра
 							</div>
-							<div class="px-4 border rounded-full bg-green cursor-pointer" @click="book(undefined)">
+							<div class="px-4 border rounded-full bg-green cursor-pointer"
+							     :class="!isBookingAvailable(2) && '!bg-white'"
+							     @click="book(undefined)">
 								Забронировать на ... дней
 							</div>
-							<div class="px-4 border rounded-full bg-green cursor-pointer" @click="book(7)">
+							<div class="px-4 border rounded-full bg-green cursor-pointer"
+							     :class="!isBookingAvailable(7) && '!bg-white'"
+							     @click="book(7)">
 								Забронировать на неделю
 							</div>
 							<div class="px-4 border rounded-full bg-white cursor-default">
@@ -60,42 +70,90 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { createDate, getCurrentDate, getCurrentDay, getNextDate } from '@/scripts/utils'
-import { schedule } from '@/scripts/schedule'
-
-// TODO Cancel book
+import { createDate, getCurrentDay, getNextDate } from '@/scripts/utils'
+import { saveSchedule, schedule } from '@/scripts/schedule'
 
 const days = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'].map(value => value.toUpperCase())
 
 const roomId = +useRoute().params.roomId
 const placeId = +useRoute().params.placeId
 
-const currentDate = getCurrentDate()
 const floor = +roomId.toString().slice(0, 1)
 const roomIndex = +roomId.toString().slice(-1) - 1
 const placeIndex = placeId - 1
 
-function getStatus(day: number) {
+function cancelBook() {
+	const dates = getDatesOfMyPlaces()
+
+	for (const date of dates)
+		schedule.value[date][floor - 1][roomIndex][placeIndex] = null
+}
+
+function getDatesOfMyPlaces() {
+	const dates: string[] = []
+
+	for (let day = 1; day <= 31; day++) {
+		const holder = schedule.value[createDate(day)][floor - 1][roomIndex][placeIndex]
+
+		if (!holder) continue
+
+		// TODO if (holder === me) dates.push(createDate(day))
+	}
+
+	return dates
+}
+
+function getState(day: number) {
 	const holder = schedule.value[createDate(day)][floor - 1][roomIndex][placeIndex]
 
+	// TODO if (holder === me) return 'book'
 
 	if (holder) return 'cancel'
 	if (day <= getCurrentDay()) return 'cancel'
 	return 'ok'
 }
 
+function isBookingAvailable(days: number) {
+	for (let i = 1; i <= days; i++) {
+		if (schedule.value[getNextDate(i)][floor - 1][roomIndex][placeIndex]
+			// TODO && not me
+		)
+			return false
+	}
+
+	return true
+}
+
 function book(days: number | undefined) {
+	if (!isBookingAvailable(1)) return
 	if (!days) days = +prompt('Введите количество дней')!
 	if (!days) return
 
-	for (let i = 1; i <= days; i++) {
-		schedule.value[getNextDate(i)][floor - 1][roomIndex][placeIndex] = {
-			firstName: 'FirstName',
-			lastName: 'LastName',
-			mail: 'Mail',
-			patronymic: 'Patronymic',
-			phone: 'Phone',
-		}
+	if (!isBookingAvailable(days)) return
+
+	if (!confirm(`Вы уверены, что хотите забронировать место до ${new Date(getNextDate(days)).toLocaleDateString()} (дней: ${days})?`))
+		return
+
+	for (let i = 1; i <= days; i++)
+		bookDate(getNextDate(i))
+}
+
+function bookDate(date: string, isAlert = false) {
+	if (schedule.value[date][floor - 1][roomIndex][placeIndex]) return
+
+	if (isAlert)
+		if (!confirm(`Вы уверены, что хотите забронировать место на ${new Date(date).toLocaleDateString()}?`))
+			return
+
+
+	schedule.value[date][floor - 1][roomIndex][placeIndex] = {
+		firstName: 'Имя',
+		lastName: 'Фамилия',
+		mail: 'Почта',
+		patronymic: 'Отчество',
+		phone: 'Телефон',
 	}
+
+	saveSchedule()
 }
 </script>

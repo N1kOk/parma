@@ -32,7 +32,25 @@
 						     v-for="place in bookedRoom.places">
 							<div>{{ place.place }} место</div>
 							<div>ЗАНЯТО</div>
-							<div class="text-red">ПОСМОТРЕТЬ</div>
+							<div class="group relative text-red cursor-default">
+								<div>ПОСМОТРЕТЬ</div>
+								<div class="group-hover:block hidden absolute left-full bottom-full p-4 text-black bg-white/50 backdrop-blur-sm border-2
+											w-max h-max z-50">
+									<div class="flex space-x-4">
+										<img class="h-[150px]" src="/images/man.png" alt="man">
+										<div class="space-y-4">
+											<div>
+												<div>{{ place.holder.lastName }}</div>
+												<div>{{ place.holder.firstName }}</div>
+												<div>{{ place.holder.patronymic }}</div>
+											</div>
+
+											<div>{{ place.holder.phone }}</div>
+											<div>{{ place.holder.mail }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
