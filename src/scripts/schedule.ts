@@ -1,8 +1,9 @@
 import { ref } from 'vue'
 import { createDate, pickRandom } from '@/scripts/utils'
+import type { User } from '@/scripts/users'
+import { users } from '@/scripts/users'
 
-type Floors = (null | UserInfo)[][][]
-type UserInfo = { [X in 'firstName' | 'lastName' | 'patronymic' | 'phone' | 'mail']: string }
+type Floors = (null | User)[][][]
 
 // [date][floor - 1][roomIndex][placeIndex]
 export const schedule = ref<{ [X: string]: Floors }>({})
@@ -35,16 +36,10 @@ export function saveSchedule() {
 	sessionStorage.schedule = JSON.stringify(schedule.value)
 }
 
-function generatePlace() {
+function generatePlace(): User | null {
 	return pickRandom(
 		null, null, null, null,
-		{
-			firstName: 'Иван',
-			lastName: 'Косарский',
-			patronymic: 'Александрович',
-			phone: '+7 922 300 30 08',
-			mail: 'cos@gmail.com',
-		})
+		...Object.values(users))
 }
 
 function generateRoom() {

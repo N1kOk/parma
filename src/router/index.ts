@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { nextTick } from 'vue'
-import { auth } from '@/utils/auth'
+import { auth } from '@/scripts/auth'
 
 import 'vue-router'
 
@@ -19,20 +19,23 @@ const router = createRouter({
 			component: () => import('../views/IndexView.vue'),
 			meta: {
 				title: 'Выбор города',
+				requiresAuth: true
 			},
 		},
 		{
 			path: '/calendar/:roomId/:placeId',
 			component: () => import('../views/CalendarView.vue'),
 			meta: {
-				title: 'Мой профиль',
+				title: 'Календарь',
+				requiresAuth: true
 			},
 		},
 		{
 			path: '/schedule',
 			component: () => import('../views/ScheduleView.vue'),
 			meta: {
-				title: 'Мой профиль',
+				title: 'Расписание',
+				requiresAuth: true
 			},
 		},
 		{
@@ -40,6 +43,7 @@ const router = createRouter({
 			component: () => import('../views/ProfileView.vue'),
 			meta: {
 				title: 'Мой профиль',
+				requiresAuth: true
 			},
 		},
 		{
@@ -47,6 +51,7 @@ const router = createRouter({
 			component: () => import('../views/OfficeView.vue'),
 			meta: {
 				title: 'Выбор помещения',
+				requiresAuth: true
 			},
 		},
 		{
@@ -84,7 +89,7 @@ router.beforeEach((to, from) => {
 	if (to.meta.requiresAuth && !auth.isLoggedIn) {
 		return {
 			path: '/login',
-			query: { redirect: to.fullPath },
+			// query: { redirect: to.fullPath },
 		}
 	}
 })

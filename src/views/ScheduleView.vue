@@ -37,7 +37,7 @@
 								<div class="group-hover:block hidden absolute left-full bottom-full p-4 text-black bg-white/50 backdrop-blur-sm border-2
 											w-max h-max z-50">
 									<div class="flex space-x-4">
-										<img class="h-[150px]" src="/images/man.png" alt="man">
+										<img class="min-w-[100px] h-[150px] bg-gray" :src="place.holder.imageUrl" alt="">
 										<div class="space-y-4">
 											<div>
 												<div>{{ place.holder.lastName }}</div>

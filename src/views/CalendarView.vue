@@ -72,6 +72,7 @@
 import { useRoute } from 'vue-router'
 import { createDate, getCurrentDay, getNextDate } from '@/scripts/utils'
 import { saveSchedule, schedule } from '@/scripts/schedule'
+import { auth } from '@/scripts/auth'
 
 const days = ['понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье'].map(value => value.toUpperCase())
 
@@ -83,6 +84,8 @@ const roomIndex = +roomId.toString().slice(-1) - 1
 const placeIndex = placeId - 1
 
 function cancelBook() {
+	if (!confirm('Вы уверены, что хотите снять бронь?')) return
+
 	const dates = getDatesOfMyPlaces()
 
 	for (const date of dates)
@@ -97,7 +100,8 @@ function getDatesOfMyPlaces() {
 
 		if (!holder) continue
 
-		// TODO if (holder === me) dates.push(createDate(day))
+		if (holder.id === auth.user.id)
+			dates.push(createDate(day))
 	}
 
 	return dates
@@ -106,20 +110,20 @@ function getDatesOfMyPlaces() {
 function getState(day: number) {
 	const holder = schedule.value[createDate(day)][floor - 1][roomIndex][placeIndex]
 
-	// TODO if (holder === me) return 'book'
-
-	if (holder) return 'cancel'
 	if (day <= getCurrentDay()) return 'cancel'
+	if (holder) {
+		if (holder.id === auth.user.id) return 'booked'
+		return 'cancel'
+	}
+
 	return 'ok'
 }
 
 function isBookingAvailable(days: number) {
-	for (let i = 1; i <= days; i++) {
-		if (schedule.value[getNextDate(i)][floor - 1][roomIndex][placeIndex]
-			// TODO && not me
-		)
+	for (let i = 1; i <= days; i++)
+		if (schedule.value[getNextDate(i)][floor - 1][roomIndex][placeIndex] &&
+		    schedule.value[getNextDate(i)][floor - 1][roomIndex][placeIndex]!.id !== auth.user.id)
 			return false
-	}
 
 	return true
 }
@@ -146,13 +150,7 @@ function bookDate(date: string, isAlert = false) {
 			return
 
 
-	schedule.value[date][floor - 1][roomIndex][placeIndex] = {
-		firstName: 'Имя',
-		lastName: 'Фамилия',
-		mail: 'Почта',
-		patronymic: 'Отчество',
-		phone: 'Телефон',
-	}
+	schedule.value[date][floor - 1][roomIndex][placeIndex] = JSON.parse(JSON.stringify(auth.user))
 
 	saveSchedule()
 }

@@ -21,10 +21,12 @@
 
 			<div class="flex justify-between items-end">
 				<div class="w-[75px] h-[414px] flex flex-col justify-between">
-					<div class="cursor-pointer" @click="isEdited = !isEdited">
+					<div class="cursor-pointer"
+					     v-if="auth.user.isAdmin"
+					     @click="isEdited = !isEdited">
 						<img class="w-full" src="/images/pencil.svg" alt="edit">
 					</div>
-					<div class="p-4 flex flex-col space-y-4 text-center bg-gray-50">
+					<div class="p-4 mt-auto flex flex-col space-y-4 text-center bg-gray-50">
 						<div class="font-bold">Этаж</div>
 						<div class="cursor-pointer select-none" v-html="floorIcons[i - 1]" v-for="i in 4"
 						     :class="currentFloor === i && 'text-red'" @click="currentFloor = i"/>
@@ -53,7 +55,7 @@
 										     class="group-hover:block hidden absolute left-full bottom-full p-4 text-black bg-white/50 backdrop-blur-sm border-2
 													w-max h-max z-50">
 											<div class="flex space-x-4">
-												<img class="h-[150px]" src="/images/man.png" alt="man">
+												<img class="min-w-[100px] h-[150px] bg-gray" :src="place.imageUrl" alt="">
 												<div class="space-y-4">
 													<div>
 														<div>{{ place.lastName }}</div>
@@ -90,6 +92,7 @@ import { setCurrentOffice } from '@/scripts/offices'
 import { ref } from 'vue'
 import { createRoom, removeRoom, schedule } from '@/scripts/schedule'
 import { getCurrentDate } from '@/scripts/utils'
+import { auth } from '@/scripts/auth'
 
 const router = useRouter()
 const isEdited = ref(false)
