@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { pickRandom } from '@/scripts/utils'
+import { createDate, pickRandom } from '@/scripts/utils'
 
 type Floors = (null | UserInfo)[][][]
 type UserInfo = { [X in 'firstName' | 'lastName' | 'patronymic' | 'phone' | 'mail']: string }
@@ -9,14 +9,16 @@ export const schedule = ref<{ [X: string]: Floors }>({})
 
 initSchedule()
 
-export function createRoom(date: string, floor: number) {
-	schedule.value[date][floor - 1].push([null, null, null, null])
+export function createRoom(floor: number) {
+	for (let day = 1; day <= 31; day++)
+		schedule.value[createDate(day)][floor - 1].push([null, null, null, null])
 }
 
-export function removeRoom(date: string, floor: number, roomIndex: number) {
-	delete schedule.value[date][floor - 1][roomIndex]
-	
-	schedule.value[date][floor - 1] = schedule.value[date][floor - 1].filter((value: unknown) => value !== undefined)
+export function removeRoom(floor: number, roomIndex: number) {
+	for (let day = 1; day <= 31; day++) {
+		delete schedule.value[createDate(day)][floor - 1][roomIndex]
+		schedule.value[createDate(day)][floor - 1] = schedule.value[createDate(day)][floor - 1].filter((value: unknown) => value !== undefined)
+	}
 }
 
 function initSchedule() {

@@ -70,11 +70,11 @@
 								</div>
 								<div class="text-center font-bold">{{ currentFloor * 100 + i + 1 }}</div>
 								<img class="absolute w-[30px] -top-5 -right-4 cursor-pointer" src="/images/trash.svg"
-								     alt="trash" v-show="isEdited" @click="removeRoom(currentDate, currentFloor, i)">
+								     alt="trash" v-show="isEdited" @click="removeRoom(currentFloor, i)">
 							</div>
 							<img class="absolute right-0 bottom-0 w-[50px] cursor-pointer" src="/images/plus.svg"
 							     alt="plus" v-show="isEdited && schedule[currentDate][currentFloor - 1].length < 6"
-							     @click="createRoom(currentDate, currentFloor)">
+							     @click="createRoom(currentFloor)">
 						</div>
 
 					</div>
