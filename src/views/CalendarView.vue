@@ -90,6 +90,8 @@ function cancelBook() {
 
 	for (const date of dates)
 		schedule.value[date][floor - 1][roomIndex][placeIndex] = null
+
+	saveSchedule()
 }
 
 function getDatesOfMyPlaces() {

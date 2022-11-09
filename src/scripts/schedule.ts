@@ -13,6 +13,8 @@ initSchedule()
 export function createRoom(floor: number) {
 	for (let day = 1; day <= 31; day++)
 		schedule.value[createDate(day)][floor - 1].push([null, null, null, null])
+	
+	saveSchedule()
 }
 
 export function removeRoom(floor: number, roomIndex: number) {
@@ -20,6 +22,8 @@ export function removeRoom(floor: number, roomIndex: number) {
 		delete schedule.value[createDate(day)][floor - 1][roomIndex]
 		schedule.value[createDate(day)][floor - 1] = schedule.value[createDate(day)][floor - 1].filter((value: unknown) => value !== undefined)
 	}
+	
+	saveSchedule()
 }
 
 function initSchedule() {
