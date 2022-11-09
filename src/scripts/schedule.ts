@@ -27,8 +27,8 @@ export function removeRoom(floor: number, roomIndex: number) {
 }
 
 function initSchedule() {
-	if (sessionStorage.schedule)
-		schedule.value = JSON.parse(sessionStorage.schedule)
+	if (localStorage.schedule)
+		schedule.value = JSON.parse(localStorage.schedule)
 	else
 		for (let i = 1; i <= 31; i++)
 			schedule.value[`2022-12-${i.toString().padStart(2, '0')}`] = generateFloors()
@@ -37,7 +37,7 @@ function initSchedule() {
 }
 
 export function saveSchedule() {
-	sessionStorage.schedule = JSON.stringify(schedule.value)
+	localStorage.schedule = JSON.stringify(schedule.value)
 }
 
 function generatePlace(): User | null {
