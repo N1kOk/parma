@@ -19,7 +19,7 @@ const router = createRouter({
 			component: () => import('../views/IndexView.vue'),
 			meta: {
 				title: 'Выбор города',
-				requiresAuth: true
+				requiresAuth: true,
 			},
 		},
 		{
@@ -27,7 +27,7 @@ const router = createRouter({
 			component: () => import('../views/CalendarView.vue'),
 			meta: {
 				title: 'Календарь',
-				requiresAuth: true
+				requiresAuth: true,
 			},
 		},
 		{
@@ -35,7 +35,7 @@ const router = createRouter({
 			component: () => import('../views/ScheduleView.vue'),
 			meta: {
 				title: 'Расписание',
-				requiresAuth: true
+				requiresAuth: true,
 			},
 		},
 		{
@@ -43,7 +43,7 @@ const router = createRouter({
 			component: () => import('../views/ProfileView.vue'),
 			meta: {
 				title: 'Мой профиль',
-				requiresAuth: true
+				requiresAuth: true,
 			},
 		},
 		{
@@ -51,7 +51,7 @@ const router = createRouter({
 			component: () => import('../views/OfficeView.vue'),
 			meta: {
 				title: 'Выбор помещения',
-				requiresAuth: true
+				requiresAuth: true,
 			},
 		},
 		{
@@ -85,16 +85,18 @@ const router = createRouter({
 	],
 })
 
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
+	if (to.query.reset) {
+		delete localStorage.users
+		return { path: to.path }
+	}
+	
 	if (to.meta.requiresAuth && !auth.isLoggedIn) {
-		return {
-			path: '/login',
-			// query: { redirect: to.fullPath },
-		}
+		return { path: '/login' }
 	}
 })
 
-router.afterEach((to, from) => {
+router.afterEach((to) => {
 	nextTick(() => {
 		document.title = to.meta.title + ' | PARMA Technologies Group' || 'PARMA Technologies Group'
 	}).then()
