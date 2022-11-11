@@ -3,6 +3,7 @@ import { nextTick } from 'vue'
 import { auth } from '@/scripts/auth'
 
 import 'vue-router'
+import type { User } from '@/scripts/users'
 
 declare module 'vue-router' {
 	interface RouteMeta {
@@ -88,7 +89,10 @@ const router = createRouter({
 router.beforeEach((to) => {
 	if (to.query.reset) {
 		delete localStorage.users
-		return { path: to.path }
+		delete localStorage.schedule
+		auth.user = null as any as User
+		location.assign('/')
+		return
 	}
 	
 	if (to.meta.requiresAuth && !auth.isLoggedIn) {

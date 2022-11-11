@@ -42,8 +42,8 @@ export function saveSchedule() {
 
 function generatePlace(): User | null {
 	return pickRandom(
-		null, null, null, null,
-		...Object.values(users))
+		...'|'.repeat(255).split('|').map(() => null),
+		...Object.values(users.slice(1)))
 }
 
 function generateRoom() {

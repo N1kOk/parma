@@ -66,15 +66,12 @@ function reg() {
 			lastName, firstName, patronymic,
 			phone: phone.value,
 			mail: mail.value,
-			pass: pass.value,
+			password: pass.value,
 		})
-
-		console.log(users)
 
 		alert('Аккаунт успешно зарегистрирован')
 	} catch (error) {
-		// @ts-ignore
-		alert(`Произошла ошибка: ${error.message || error}`)
+		alert(`Произошла ошибка: ${error}`)
 	}
 }
 </script>
