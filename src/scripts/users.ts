@@ -1,10 +1,6 @@
-import { useRoute } from 'vue-router'
-import router from '@/router'
-
 export type User =
 	{ [X in 'firstName' | 'lastName' | 'patronymic' | 'phone' | 'mail' | 'imageUrl']: string } &
 	{ id: number, isAdmin: boolean }
-
 
 export let users: { [X: string]: User } = {
 	'test:test': {
