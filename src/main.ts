@@ -13,3 +13,12 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
+
+const $html = document.getElementsByTagName('html')[0]
+window.addEventListener('resize', changeScale)
+
+changeScale()
+function changeScale() {
+	// @ts-ignore
+	$html.style.zoom = Math.min(1, $html.clientWidth / 1536)
+}

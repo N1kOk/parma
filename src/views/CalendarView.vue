@@ -1,6 +1,6 @@
 <template>
 	<div class="w-full h-[1px] min-h-[calc(100vh-160px)] flex justify-between text-left">
-		<div class="w-full h-full space-y-12">
+		<div class="w-full h-max space-y-12">
 			<div class="text-4xl font-bold">Офис {{ roomId }}, {{ placeId }} стол</div>
 			<div class="w-full h-[calc(100%-112px)] p-8 bg-gray-50 space-y-4">
 				<div class="text-2xl font-bold">Расписание</div>
@@ -28,11 +28,10 @@
 						</div>
 					</div>
 
-					<div class="w-full h-full flex flex-col justify-center">
-						<div class="flex-1 space-y-4">
+					<div class="w-full flex flex-col">
+						<div class="space-y-4" v-show="getDatesOfMyPlaces().length">
 							<div class="w-[300px] p-4 mx-auto bg-red text-white text-center text-2xl font-bold
 									    cursor-pointer"
-							     v-show="getDatesOfMyPlaces().length"
 							     @click="cancelBook()">
 								Снять бронь
 							</div>
@@ -40,6 +39,8 @@
 								24 часа!
 							</div>
 						</div>
+
+						<div class="flex-1"></div>
 
 						<div class="w-[350px] mx-auto space-y-2 text-center text-xl">
 							<div class="px-4 border rounded-full bg-green cursor-pointer"
